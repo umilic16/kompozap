@@ -48,7 +48,7 @@ try
 
     var prompt = imageTree.BuildPrompt(appSettings.MaxPageSize);
     prompt.HighlightStyle(Theme.Primary);
-    AnsiConsole.MarkupLine($"\n[bold {Theme.Primary}]Kompozap[/] is ready!");
+    AnsiConsole.MarkupLineInterpolated($"\n[bold {Theme.Primary}]Kompozap[/] is ready!");
     var selected = await AnsiConsole.PromptAsync(prompt);
 
     var selectedServices = selected.SelectMany(x => x.Services)
@@ -71,12 +71,12 @@ try
     {
         if (generatedTag is not null)
         {
-            AnsiConsole.MarkupLineInterpolated($"[{Theme.Success}]Published images[/] with tag [bold ${Theme.Primary}]{generatedTag}[/].");
+            AnsiConsole.MarkupLineInterpolated($"[{Theme.Success}]Published images[/] with tag [bold {Theme.Primary}]{generatedTag}[/].");
             var tagReplacementComposeFilePath = appSettings.Docker.ImageTagSettings.TagReplacementComposeFilePath;
             ComposeImageTagUpdater.UpdateTags(tagReplacementComposeFilePath, selectedImages, generatedTag);
-            AnsiConsole.MarkupLineInterpolated($"[{Theme.Success}]Updated image tags[/] in [${Theme.Primary}]{Markup.Escape(tagReplacementComposeFilePath)}[/].");
+            AnsiConsole.MarkupLineInterpolated($"[{Theme.Success}]Updated image tags[/] in [{Theme.Primary}]{Markup.Escape(tagReplacementComposeFilePath)}[/].");
         }
-        AnsiConsole.MarkupLine($"[${Theme.Primary}]Done![/]");
+        AnsiConsole.MarkupLineInterpolated($"[{Theme.Primary}]Done![/]");
     }
     else
     {
@@ -85,7 +85,7 @@ try
 }
 catch (Exception ex)
 {
-    AnsiConsole.MarkupLine($"[{Theme.Error}]Kompozap encountered an unexpected error.[/]");
+    AnsiConsole.MarkupLineInterpolated($"[{Theme.Error}]Kompozap encountered an unexpected error.[/]");
     AnsiConsole.WriteException(ex);
     await ExportLog(appSettings.LogsDirectory);
 }
@@ -109,7 +109,7 @@ static async Task ExportLog(string directory)
     }
     catch (Exception ex)
     {
-        AnsiConsole.MarkupLine($"[${Theme.Error}]Failed to export error log.[/]");
+        AnsiConsole.MarkupLineInterpolated($"[{Theme.Error}]Failed to export error log.[/]");
         AnsiConsole.WriteException(ex);
     }
     finally
