@@ -1,0 +1,33 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v7
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Publish Kompozap
+        run: |
+          # Strip the 'v' from the tag (v1.0.3 becomes 1.0.3)
+          VERSION="${GITHUB_REF_NAME#v}"
+          
+          dotnet publish ./src/Kompozap/Kompozap.csproj -p:PublishProfile=Release -p:Version="$VERSION" 
+          
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: Kompozap-${{ github.ref_name }}
+          path: publish/Kompozap.exe
+          retention-days: 7
