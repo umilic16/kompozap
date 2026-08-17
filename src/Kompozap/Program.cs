@@ -78,10 +78,7 @@ try
         }
         AnsiConsole.MarkupLineInterpolated($"[{Theme.Primary}]Done![/]");
     }
-    else
-    {
-        await ExportLog(appSettings.LogsDirectory);
-    }
+    await ExportLog(appSettings.LogsDirectory);
 }
 catch (Exception ex)
 {
