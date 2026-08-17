@@ -12,6 +12,20 @@ Kompozap replaces manual `docker compose` commands and manual YAML version updat
 * **Zero-Touch Versioning:** Automatically generates new image tags and patches your `docker-compose.yml` with the updated references after a successful push.
 * **Flexible Configuration**: Easily adjust paths, Docker commands, and automatic tagging rules.
 
+## Installation
+
+Install Kompozap globally as a .NET tool:
+
+```bash
+dotnet tool install --global Kompozap
+```
+
+## Usage
+Run the tool directly from your terminal:
+```bash
+kompozap
+```
+
 ## Configuration
 
 Kompozap supports standard .NET configuration sources. 
@@ -26,3 +40,4 @@ The easiest way to configure it is by placing an `appsettings.json` file in the 
     "PushArguments": "compose push"
   }
 }
+```
