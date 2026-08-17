@@ -1,4 +1,4 @@
-name: Build and Release
+name: Build and release executable
 
 on:
   push:
@@ -10,7 +10,7 @@ env:
   DOTNET_CLI_TELEMETRY_OPTOUT: true
 
 jobs:
-  build:
+  build-and-publish:
     runs-on: ubuntu-latest
 
     steps:
