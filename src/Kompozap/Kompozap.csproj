@@ -19,6 +19,7 @@
     <Authors>Uros Milic</Authors>
     <Description>A clean, interactive terminal UI to help simplify Docker Compose deployments.</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/umilic16/kompozap</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
