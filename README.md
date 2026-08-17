@@ -1,3 +1,4 @@
+﻿[![NuGet](https://img.shields.io/nuget/v/Kompozap.svg)](https://www.nuget.org/packages/Kompozap)
 # Kompozap
 
 > A clean, interactive terminal UI to help simplify Docker Compose deployments.
