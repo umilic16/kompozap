@@ -3,7 +3,7 @@ name: Build and push to nuget
 on:
   push:
     tags:
-      - 'v*.*.*'
+      - 'v[0-9]+.[0-9]+.[0-9]+*'
 
 env:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
@@ -12,6 +12,7 @@ env:
 jobs:
   build-and-publish:
     permissions:
+      contents: read
       id-token: write  # enable GitHub OIDC token issuance for this job
     runs-on: ubuntu-latest
 
@@ -24,23 +25,12 @@ jobs:
         with:
           dotnet-version: '10.0.x'
 
-      - name: Publish Kompozap
+      - name: Pack Kompozap
         run: |
           # Strip the 'v' from the tag (v1.0.3 becomes 1.0.3)
           VERSION="${GITHUB_REF_NAME#v}"
-          
-          dotnet pack ./src/Kompozap/Kompozap.csproj -p:PublishProfile=Release -p:Version="$VERSION" -o ./nuget-out
-          
-      # Get a short-lived NuGet API key
-      - name: NuGet login (OIDC → temp API key)
-        uses: NuGet/login@v1
-        id: login
-        with:
-          user: ${{ secrets.NUGET_USER }} # Recommended: use a secret like ${{ secrets.NUGET_USER }} for your nuget.org username (profile name), NOT your email address
-          
-      - name: Push to NuGet
-        run: |
-          dotnet nuget push ./nuget-out/*.nupkg --api-key ${{steps.login.outputs.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
+
+          dotnet pack ./src/Kompozap/Kompozap.csproj -c Release -p:Version="$VERSION" -o ./nuget-out
           
       - name: Upload Artifact
         uses: actions/upload-artifact@v7
@@ -48,3 +38,15 @@ jobs:
           name: Kompozap-NuGet-Package-${{ github.ref_name }}
           path: ./nuget-out/*.nupkg
           retention-days: 7
+          
+      # Get a short-lived NuGet API key
+      - name: NuGet login (OIDC → temp API key)
+        uses: NuGet/login@v1
+        id: login
+        with:
+          user: ${{ secrets.NUGET_USER }}
+          
+      - name: Push to NuGet
+        env:
+          NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
+        run: dotnet nuget push ./nuget-out/*.nupkg --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json

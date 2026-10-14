@@ -17,7 +17,10 @@
     <ToolCommandName>kompozap</ToolCommandName>
     <PackageId>Kompozap</PackageId>
     <Authors>Uros Milic</Authors>
+    <Copyright>© Uros Milic</Copyright>
     <Description>A clean, interactive terminal UI to help simplify Docker Compose deployments.</Description>
+    <PackageTags>docker;docker-compose;tui;terminal;cli;deployment;dotnet-tool</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/umilic16/kompozap</RepositoryUrl>
   </PropertyGroup>

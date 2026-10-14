@@ -3,7 +3,7 @@ name: Build and release executable
 on:
   push:
     tags:
-      - 'v*.*.*'
+      - 'v[0-9]+.[0-9]+.[0-9]+*'
 
 env:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
@@ -26,9 +26,9 @@ jobs:
         run: |
           # Strip the 'v' from the tag (v1.0.3 becomes 1.0.3)
           VERSION="${GITHUB_REF_NAME#v}"
-          
-          dotnet publish ./src/Kompozap/Kompozap.csproj -p:PublishProfile=Release -p:Version="$VERSION" 
-          
+
+          dotnet publish ./src/Kompozap/Kompozap.csproj -c Release -r win-x64 --self-contained -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:Version="$VERSION" -o ./publish
+
       - name: Upload Artifact
         uses: actions/upload-artifact@v7
         with:
